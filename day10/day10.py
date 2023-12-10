@@ -1,8 +1,6 @@
 import math
 from tqdm import tqdm
-from shapely.geometry import Point
-from shapely.geometry.polygon import Polygon
-
+import matplotlib.path
 
 """
 Notes on part 2:
@@ -12,8 +10,10 @@ can check for each point that is not part of the loop, whether it is inside the
 polygon formed by the loop:
 https://en.wikipedia.org/wiki/Point_in_polygon
 
-For this purpose, I use the shapely package.
-Performing the point-in-polygon test for all points takes about 35 seconds on my
+For this purpose, I use the matplotlib.path.Path.contains_point function:
+https://matplotlib.org/stable/api/path_api.html#matplotlib.path.Path.contains_point
+
+Performing the point-in-polygon test for all points takes about 5 seconds on my
 hardware.
 """
 
@@ -125,12 +125,12 @@ def part2(graph, text_graph):
     c  =len(text_graph[0])
 
     path, _ = find_loop_path(graph, text_graph)
-    polygon = Polygon(path)
+    polygon = matplotlib.path.Path(path, closed=True)
 
     enclosed_tiles = []
     for i in tqdm(range(r)):
         for j in range(c):
-            if (i,j) not in path and polygon.contains(Point(i,j)):
+            if (i,j) not in path and polygon.contains_point((i,j)):
                 enclosed_tiles.append((i,j))
     
     print("Enclosed tiles:", enclosed_tiles)
