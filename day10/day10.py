@@ -52,9 +52,6 @@ def is_connected(i1, j1, i2, j2, text_graph):
 
 
 def get_connected_neighbors(i, j, text_graph):
-    r = len(text_graph)
-    c  =len(text_graph[0])
-
     potential_neighbors = [(i, j-1), (i, j+1), (i-1, j), (i+1, j)]
     neighbors = list(filter(lambda n : is_connected(i, j, n[0], n[1], text_graph), potential_neighbors))
     return neighbors
