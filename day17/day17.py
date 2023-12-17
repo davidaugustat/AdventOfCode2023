@@ -64,6 +64,11 @@ def get_successors_part2(node, r, c):
         else:
             raise Exception("Invalid direction")
         
+        # Before reaching end node, direction must stay the same for 4 steps:
+        if i_next == r-1 and j_next == c-1:
+            if next_dir != prev_dir or steps_taken_in_this_dir < 3:
+                continue
+        
         if (prev_dir != next_dir or (prev_dir == next_dir and steps_taken_in_this_dir < 10)) and check_bounds(i_next, j_next, r, c):
             steps = 1 if prev_dir != next_dir else steps_taken_in_this_dir + 1
             successors.append((i_next, j_next, next_dir, steps))
@@ -132,6 +137,7 @@ def read_data_from_file(filename):
 
 
 # grid = read_data_from_file("testinput.txt")
+# grid = read_data_from_file("testinput2.txt")
 grid = read_data_from_file("input.txt")
 
 part1(grid)
